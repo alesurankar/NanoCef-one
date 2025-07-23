@@ -45,31 +45,22 @@ function removeItem(i: number)
 const grandTotal = computed(() =>
   entries.value.reduce((sum, entry) => sum + entry.item.price * entry.quantity, 0)
 )
-const mb = ref<boolean|null>(null)
+const mb = ref('null')
 function doit()
 {
   interface MyApi
   {
-    doVersion(text: string): number;
+    doVersion(
+      text: string,
+      accept: (result:boolean) => void,
+      reject: (msg: string) => void,
+    ): void;
   }
   const myApi = window as unknown as MyApi;
-  try 
-  {
-    const result = myApi.doVersion("ayyyyy yo");
-    if (result === 6) 
-    {
-      mb.value = true;  // YES
-    } else if (result === 7) 
-    {
-      mb.value = false; // NO
-    } else 
-    {
-      mb.value = null;  // CANCEL or unknown
-    }
-  } catch (e) 
-  {
-    mb.value = null;
-  }
+    myApi.doVersion("ayyyyy yo",
+      (btn) => {mb.value = btn ? 'YES' : 'NO'},
+      (msg) => mb.value = msg
+  )
 }
 </script>
 
@@ -126,7 +117,7 @@ function doit()
         </div>
         <div class="d-flex justify-end">
           <v-btn color="green" @click="doit">AYY</v-btn>
-          <p class="price">{{ mb ? 'YES' : mb !== null ? 'NO' : 'null' }}</p>
+          <p class="price">{{ mb }}</p>
         </div>
       </v-container>
     </v-main>
