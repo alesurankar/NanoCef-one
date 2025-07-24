@@ -66,7 +66,7 @@ private:
     {
 		auto& invocation = invocations_[id];
         invocation.pV8Context->Enter();
-        if (exception.empty()) 
+        if (!exception.empty()) 
         {
             invocation.pReject->ExecuteFunction({}, CefV8ValueList{ CefV8Value::CreateString(exception) });
         }

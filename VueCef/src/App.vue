@@ -52,7 +52,7 @@ function doit()
   {
     doVersion(
       text: string,
-      accept: (result:boolean) => void,
+      accept: (result: boolean) => void,
       reject: (msg: string) => void,
     ): void;
   }
